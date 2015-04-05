@@ -1,3 +1,5 @@
+src
+test
 spec
 *.coffee
 appveyor.yml
