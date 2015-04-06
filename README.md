@@ -2,40 +2,110 @@
 
 ### Still work in progress. Can be used with Gulp build system.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/yd1ybqg3eq397i26/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/grunt-atom-shell-installer/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva/branch/master?svg=true)](https://ci.appveyor.com/project/bhaal275/atom-shell-installer/branch/master)
 
-Grunt plugin that builds Windows installers for
+Module that builds Windows installers for
 [Atom Shell](https://github.com/atom/atom-shell) apps using
 [Squirrel](https://github.com/Squirrel/Squirrel.Windows).
 
 ## Installing
 
 ```sh
-npm install --save-dev grunt-atom-shell-installer
+npm install --save-dev atom-shell-installer
 ```
 
 ## Configuring
 
-In your `Gruntfile.coffee` or `Gruntfile.js` add the following:
+In your `gulpfile.js` add the following:
 
 ```js
-grunt.loadNpmTasks('grunt-atom-shell-installer')
-```
+var gulp = require('gulp');
+var atomShellInstaller = require('atom-shell-installer');
 
-Then assuming you have an Atom Shell app built at the given `appDirectory`,
-you can configure the installer task like so:
-
-```js
-'create-windows-installer': {
-  appDirectory: '/tmp/build/my-app',
-  outputDirectory: '/tmp/build/installer',
-  authors: 'My App Inc.',
-  exe: 'myapp.exe'
+gulp.task('create-windows-installer', function (done) {
+  atomShellInstaller({
+    appDirectory: 'path/to/atom-shell',
+    outputDirectory: 'installer',
+    exe: 'atom.exe'
+  }).then(function () {
+    done();
+  });
+});
 }
 ```
 
-Then run `grunt create-windows-installer` and you will have an `.nupkg`, a
+This assumes you have an Atom Shell app built at the given `appDirectory`, and your application files are available at `${appDirectory}/resources/app/` or `${appDirectory}/resources/app.asar`.
+
+Then run `gulp create-windows-installer` and you will have an `.nupkg`, a
 `RELEASES` file, and a `.exe` installer file in the `outputDirectory` folder.
+
+##Advanced Configuring
+
+So you build an Atom-Shell application, and you want to start distributing it, you can add following tasks to your gulpfile:
+
+```js
+// Npm modules required for this setup.
+var gulp = require('gulp');
+var downloadatomshell = require('gulp-download-atom-shell');
+var rimraf = require('rimraf');
+var asar = require('gulp-asar');
+var atomShellInstaller = require('atom-shell-installer');
+
+// A task to download Atom-Shell utilizing https://github.com/r0nn/gulp-download-atom-shell
+// It downloads atom-shell with the specified version, and unpacks it to a provided directory.
+gulp.task('download', function (cb) {
+  downloadatomshell({
+    version: '0.22.3',
+    outputDir: 'cache'
+  }, cb);
+});
+
+// A cleanup task to keep our distribution preparation fresh.
+// It cleans a directory that is next used as a start position to creating an installer.
+gulp.task('clean-dist', function (cb) {
+  rimraf('./dist', cb);
+});
+
+// Task to copy the downloaded atom-shell into the distribution directory.
+gulp.task('copy-atom', ['clean-dist'], function () {
+  return gulp.src('./cache/**/*')
+      .pipe(gulp.dest('dist/'));
+});
+
+// Task that copies all necessary app files into atom-shell resources/app directory.
+// This is a default directory used by atom-shell.
+// Copy there all files that your application needs to run properly.
+gulp.task('prepFiles', ['clean-dist', 'copy-atom'], function () {
+  return gulp.src(['./node_modules/**/*', './resources/**/*', './build/**/*', './package.json'], { base: './'})
+    .pipe(gulp.dest('dist/resources/app'));
+});
+
+// Task to create an asar archive out of files required to run the application.
+// This solves too long path issues on Windows.
+gulp.task('create-archive', ['clean-dist', 'prepFiles'], function() {
+  return gulp.src('dist/resources/app/**/*')
+    .pipe(asar('app.asar'))
+    .pipe(gulp.dest('dist/resources'));
+});
+
+// Task to clean no longer required resources/app folder as we now have the asar package.
+gulp.task('clean-app', ['clean-dist', 'create-archive'], function (cb) {
+  rimraf('./dist/resources/app', cb);
+});
+
+// Final task to create the installer and save it in the ./installer/ directory.
+gulp.task('create-windows-installer', ['clean-app'], function (done) {
+  atomShellInstaller({
+    appDirectory: 'dist',
+    outputDirectory: 'installer',
+    exe: 'atom.exe'
+  }).then(function () {
+    done();
+  });
+});
+```
+
+## Configuration parameters
 
 There are several configuration settings supported:
 
