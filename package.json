@@ -1,6 +1,6 @@
 {
   "name": "atom-shell-installer",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Module to build Windows installers for Atom Shell apps, can be used with Gulp build system.",
   "main": "dist/library-dist.js",
   "scripts": {

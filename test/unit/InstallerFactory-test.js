@@ -252,12 +252,12 @@ describe('InstallerFactory', () => {
       fs.renameSync.restore();
     });
 
-    it('should resolve without renaming the file if no product name is provieded', (done) => {
+    it('should resolve with renaming the file using name if no product name is provieded', (done) => {
       getPackageJsonStub.returns({author: 'some author', name: 'some name', version: '123', description: 'some desc', productName: undefined});
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir', remoteReleases: 'someUrl'});
       let promise = installerFactory.updateSetupFile();
       promise.then(() => {
-        expect(renameSyncStub.called).to.equal(false);
+        expect(renameSyncStub.calledWith(path.join(installerFactory.outputDirectory, 'Setup.exe'), path.join(installerFactory.outputDirectory, `${installerFactory.productName}Setup.exe`))).to.equal(true);
         done();
       });
     });

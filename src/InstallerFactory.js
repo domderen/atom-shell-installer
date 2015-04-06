@@ -43,7 +43,7 @@ class InstallerFactory {
       this.iconUrl = iconUrl;
       this.description = description || appMetadata.description;
       this.version = version || appMetadata.version;
-      this.productName = appMetadata.productName;
+      this.productName = appMetadata.productName || this.name;
       this.title = title || this.productName || this.name;
       this.certificateFile = certificateFile;
       this.certificatePassword = certificatePassword;
