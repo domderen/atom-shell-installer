@@ -5,3 +5,4 @@ SquirrelSetup.log
 .node-version
 .DS_Store
 test/spec/atom-shell/Update.exe
+coverage

@@ -1,6 +1,7 @@
 src
 test
-spec
-*.coffee
 appveyor.yml
 .npmignore
+eslintrc
+gulpfile.js
+editorconfig
