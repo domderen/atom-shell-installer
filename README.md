@@ -1,6 +1,6 @@
-# Atom Shell Installer Grunt Plugin
+# Atom Shell Installer
 
-### Still work in progress. Missing the gulp part of the whole thing :)
+### Still work in progress. Can be used with Gulp build system.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/yd1ybqg3eq397i26/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/grunt-atom-shell-installer/branch/master)
 

@@ -6,7 +6,7 @@ import fs from 'fs-promise';
 
 import temp from 'temp';
 
-import InstallerFactory from '../../src/InstallerFactory';
+import index from '../../src/index';
 
 describe('InstallerFactory', () => {
   beforeEach(() => {
@@ -19,13 +19,11 @@ describe('InstallerFactory', () => {
   it('should create new installer for the example app', (done) => {
     let outputDirectory = temp.mkdirSync('grunt-atom-shell-installer-');
 
-    let installerFactory = new InstallerFactory({
+    let promise = index({
       appDirectory: path.join('test', 'spec', 'atom-shell'),
       outputDirectory: outputDirectory,
       exe: 'atom.exe'
     });
-
-    let promise = installerFactory.createInstaller();
 
     promise
       .then(() => {
@@ -36,6 +34,7 @@ describe('InstallerFactory', () => {
       })
       .catch(error => {
         console.log('error happened');
+        console.log(error.stack);
         console.log(error);
       });
   });

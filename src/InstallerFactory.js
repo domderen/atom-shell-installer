@@ -13,7 +13,7 @@ class InstallerFactory {
   constructor({
     appDirectory,
     outputDirectory = 'installer',
-    loadingGif = path.resolve('..', 'resources', 'install-spinner.gif'),
+    loadingGif = path.resolve('resources', 'install-spinner.gif'),
     authors,
     owners,
     exe,
@@ -56,7 +56,7 @@ class InstallerFactory {
   }
   syncReleases() {
     if(this.remoteReleases) {
-      const cmd = path.resolve('..', 'vendor', 'SyncReleases.exe');
+      const cmd = path.resolve('vendor', 'SyncReleases.exe');
       const args = ['-u', this.remoteReleases, '-r', this.outputDirectory];
       return Util.exec(cmd, args);
     } else {
@@ -65,7 +65,7 @@ class InstallerFactory {
   }
   update(nugetOutput) {
     const nupkgPath = path.join(nugetOutput, `${this.name}.${this.version}.nupkg`);
-    const cmd = path.resolve('..', 'vendor', 'Update.com');
+    const cmd = path.resolve('vendor', 'Update.com');
     const args = [
       '--releasify',
       nupkgPath,
@@ -105,7 +105,7 @@ class InstallerFactory {
     temp.track();
 
     // Bundle Update.exe with the app
-    fs.copySync(path.resolve('..', 'vendor', 'Update.exe'), path.join(this.appDirectory, 'Update.exe'));
+    fs.copySync(path.resolve('vendor', 'Update.exe'), path.join(this.appDirectory, 'Update.exe'));
 
     // Read the contents of template.nuspec file
     const template = dot.template(fs.readFileSync(path.join('template.nuspec')));

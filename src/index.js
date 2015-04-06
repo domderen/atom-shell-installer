@@ -1,7 +1,15 @@
 'use strict';
 
-import Plugin from './Plugin';
+import Promise from 'bluebird';
 
-let plugin = new Plugin();
+import InstallerFactory from './InstallerFactory';
 
-plugin.main({otherProp: 'some'});
+export default opts => {
+  try {
+    let installerFactory = new InstallerFactory(opts);
+    return installerFactory.createInstaller();
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+

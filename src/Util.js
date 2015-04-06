@@ -15,7 +15,7 @@ export default {
     return new Promise((resolve, reject) => {
       ChildProcess.execFile(cmd, args, options, (error, stdout, stderr) => {
         if(error) {
-          reject(`Command returned non-zero code ${error} with error output ${stderr}`);
+          reject(new Error(`Command\n${cmd} ${args}\n returned non-zero code ${error} with error output ${stderr}`));
         } else {
           resolve(stdout);
         }

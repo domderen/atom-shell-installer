@@ -44,7 +44,7 @@ describe('InstallerFactory', () => {
       expect(getPackageJsonStub.calledWith('correctDir')).to.equal(true);
       expect(installerFactory.appDirectory).to.equal('correctDir');
       expect(installerFactory.outputDirectory).to.equal(path.resolve('installer'));
-      expect(installerFactory.loadingGif).to.equal(path.resolve('..', 'resources', 'install-spinner.gif'));
+      expect(installerFactory.loadingGif).to.equal(path.resolve('resources', 'install-spinner.gif'));
       expect(installerFactory.authors).to.equal('some author');
       expect(installerFactory.owners).to.equal('some author');
       expect(installerFactory.name).to.equal('some name');
@@ -131,7 +131,7 @@ describe('InstallerFactory', () => {
       execStub.returns(Promise.resolve());
       var promise = installerFactory.syncReleases();
       promise.then(() => {
-        expect(execStub.calledWith(path.resolve('..', 'vendor', 'SyncReleases.exe'), ['-u', installerFactory.remoteReleases, '-r', installerFactory.outputDirectory])).to.equal(true);
+        expect(execStub.calledWith(path.resolve('vendor', 'SyncReleases.exe'), ['-u', installerFactory.remoteReleases, '-r', installerFactory.outputDirectory])).to.equal(true);
         done();
       });
     });
@@ -141,7 +141,7 @@ describe('InstallerFactory', () => {
       execStub.returns(Promise.reject());
       var promise = installerFactory.syncReleases();
       promise.catch(() => {
-        expect(execStub.calledWith(path.resolve('..', 'vendor', 'SyncReleases.exe'), ['-u', installerFactory.remoteReleases, '-r', installerFactory.outputDirectory])).to.equal(true);
+        expect(execStub.calledWith(path.resolve('vendor', 'SyncReleases.exe'), ['-u', installerFactory.remoteReleases, '-r', installerFactory.outputDirectory])).to.equal(true);
         done();
       });
     });
@@ -166,7 +166,7 @@ describe('InstallerFactory', () => {
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir'});
       execStub.returns(Promise.resolve());
       var promise = installerFactory.update('some output');
-      promise.then(() => expect(execStub.calledWith(path.resolve('..', 'vendor', 'Update.com'), [
+      promise.then(() => expect(execStub.calledWith(path.resolve('vendor', 'Update.com'), [
         '--releasify',
         path.join('some output', `${installerFactory.name}.${installerFactory.version}.nupkg`),
         '--releaseDir',
@@ -180,7 +180,7 @@ describe('InstallerFactory', () => {
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir'});
       execStub.returns(Promise.reject());
       var promise = installerFactory.update('some output');
-      promise.catch(() => expect(execStub.calledWith(path.resolve('..', 'vendor', 'Update.com'), [
+      promise.catch(() => expect(execStub.calledWith(path.resolve('vendor', 'Update.com'), [
         '--releasify',
         path.join('some output', `${installerFactory.name}.${installerFactory.version}.nupkg`),
         '--releaseDir',
@@ -194,7 +194,7 @@ describe('InstallerFactory', () => {
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir', signWithParams: 'some params'});
       execStub.returns(Promise.resolve());
       var promise = installerFactory.update('some output');
-      promise.catch(() => expect(execStub.calledWith(path.resolve('..', 'vendor', 'Update.com'), [
+      promise.catch(() => expect(execStub.calledWith(path.resolve('vendor', 'Update.com'), [
         '--releasify',
         path.join('some output', `${installerFactory.name}.${installerFactory.version}.nupkg`),
         '--releaseDir',
@@ -210,7 +210,7 @@ describe('InstallerFactory', () => {
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir', certificateFile: 'some certificateFile', certificatePassword: 'some certificatePassword'});
       execStub.returns(Promise.resolve());
       var promise = installerFactory.update('some output');
-      promise.catch(() => expect(execStub.calledWith(path.resolve('..', 'vendor', 'Update.com'), [
+      promise.catch(() => expect(execStub.calledWith(path.resolve('vendor', 'Update.com'), [
         '--releasify',
         path.join('some output', `${installerFactory.name}.${installerFactory.version}.nupkg`),
         '--releaseDir',
@@ -226,7 +226,7 @@ describe('InstallerFactory', () => {
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir', setupIcon: 'some setupIcon'});
       execStub.returns(Promise.resolve());
       var promise = installerFactory.update('some output');
-      promise.catch(() => expect(execStub.calledWith(path.resolve('..', 'vendor', 'Update.com'), [
+      promise.catch(() => expect(execStub.calledWith(path.resolve('vendor', 'Update.com'), [
         '--releasify',
         path.join('some output', `${installerFactory.name}.${installerFactory.version}.nupkg`),
         '--releaseDir',
