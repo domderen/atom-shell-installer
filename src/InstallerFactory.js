@@ -108,7 +108,7 @@ class InstallerFactory {
     fs.copySync(path.resolve(__dirname, '..', 'vendor', 'Update.exe'), path.join(this.appDirectory, 'Update.exe'));
 
     // Read the contents of template.nuspec file
-    const template = dot.template(fs.readFileSync(path.resolve(__dirname, '..', 'template.nuspec')));
+    const template = dot.template(fs.readFileSync(path.resolve(__dirname, '..', 'resources', 'template.nuspec')));
 
     // Fill the template with provided configuration parameters
     const nuspecContent = template({
