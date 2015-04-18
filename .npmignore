@@ -2,6 +2,7 @@ src
 test
 appveyor.yml
 .npmignore
-eslintrc
+.eslintrc
 gulpfile.js
 editorconfig
+coverage
