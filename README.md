@@ -1,6 +1,6 @@
 # Atom Shell Installer
 
-### Still work in progress. Can be used with Gulp build system.
+### Can be used with Gulp build system.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva/branch/master?svg=true)](https://ci.appveyor.com/project/bhaal275/atom-shell-installer/branch/master)
 
