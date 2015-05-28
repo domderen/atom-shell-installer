@@ -257,7 +257,7 @@ describe('InstallerFactory', () => {
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir', remoteReleases: 'someUrl'});
       let promise = installerFactory.updateSetupFile();
       promise.then(() => {
-        expect(renameSyncStub.calledWith(path.join(installerFactory.outputDirectory, 'Setup.exe'), path.join(installerFactory.outputDirectory, `${installerFactory.productName}Setup.exe`))).to.equal(true);
+        expect(renameSyncStub.calledWith(path.join(installerFactory.outputDirectory, 'Setup.exe'), path.join(installerFactory.outputDirectory, `${installerFactory.productName}.exe`))).to.equal(true);
         done();
       });
     });
@@ -267,7 +267,7 @@ describe('InstallerFactory', () => {
       let installerFactory = new InstallerFactory({appDirectory: 'correctDir', remoteReleases: 'someUrl'});
       let promise = installerFactory.updateSetupFile();
       promise.then(() => {
-        expect(renameSyncStub.calledWith(path.join(installerFactory.outputDirectory, 'Setup.exe'), path.join(installerFactory.outputDirectory, `${installerFactory.productName}Setup.exe`))).to.equal(true);
+        expect(renameSyncStub.calledWith(path.join(installerFactory.outputDirectory, 'Setup.exe'), path.join(installerFactory.outputDirectory, `${installerFactory.productName}.exe`))).to.equal(true);
         done();
       });
     });

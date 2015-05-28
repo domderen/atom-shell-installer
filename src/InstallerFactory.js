@@ -94,7 +94,7 @@ class InstallerFactory {
   }
   updateSetupFile() {
     if(this.productName) {
-      const setupPath = path.join(this.outputDirectory, `${this.productName}Setup.exe`);
+      const setupPath = path.join(this.outputDirectory, `${this.productName}.exe`);
       fs.renameSync(path.join(this.outputDirectory, 'Setup.exe'), setupPath);
     }
 
