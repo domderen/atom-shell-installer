@@ -138,6 +138,10 @@ class InstallerFactory {
       '-NoDefaultExcludes'
     ];
 
+    if (process.platform != "win32") {
+	args.unshift(cmd);
+	cmd = "wine";
+    }
 
     return Util.exec(cmd, args)
       .then(() => this.syncReleases())
